@@ -61,7 +61,26 @@
         return { gameBoard, displayGame }
     }
 
-    
+    function makePlayer(playerName) {
+       
+            const name = playerName;
+            let score = 0;
+
+            const addPoint = () => score++;
+
+            const getPoints = () => score;
+
+            return {name, score, addPoint, getPoints}
+    };
+
+
+    const player1 = makePlayer("test");
+
+    console.log(player1.getPoints())
+
+    player1.addPoint()
+
+    console.log(player1.getPoints())
 
     let currentBoard = generateBoard();
 
