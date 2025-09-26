@@ -13,6 +13,7 @@
             //method to change board space values given the index of the space and value to insert
             const modify = (index, mark) => {
                 board[index] = mark;
+                displayGame.update(index);
             };
             //method to check if a player has won
             const checkWin = () => {
@@ -78,8 +79,9 @@
                 //the display and array values to be easily linked
                 //then adds to overall grid container for display
                 for (let i = 0; i < board.length; i++) {
-                    let gridSquare = document.createElement("p");
+                    let gridSquare = document.createElement("button");
                     gridSquare.id = i;
+                    gridSquare.classList.add("gameSquares")
                     gridSquare.textContent = board[i];
                     gridContainer.appendChild(gridSquare);
                 };
@@ -128,46 +130,41 @@
 
     //function to play a game, currently configured to allow moves to be made via console
     function playGame() {
-        do {
-            let userPickIndex = Number(prompt("Enter the square number you wish to pick")) - 1;
-            if (Number.isInteger(userPickIndex)) {
-                currentBoard.gameBoard.modify(userPickIndex, "X")
-                currentBoard.displayGame.update(userPickIndex);
-                //failsafe to prevent cpu attempting to play if match is already over
-                if (currentBoard.gameBoard.checkWin() == false) {
-                     cpuPlay()
-                }
-            }
-        } while (currentBoard.gameBoard.checkWin() == false)
+        // do {
+        //     let userPickIndex = Number(prompt("Enter the square number you wish to pick")) - 1;
+        //     if (Number.isInteger(userPickIndex)) {
+        //         currentBoard.gameBoard.modify(userPickIndex, "X")
+        //         currentBoard.displayGame.update(userPickIndex);
+        //         //failsafe to prevent cpu attempting to play if match is already over
+        //         if (currentBoard.gameBoard.checkWin() == false) {
+        //              cpuPlay()
+        //         }
+        //     }
+        // } while (currentBoard.gameBoard.checkWin() == false)
     };
 
-    function cpuPlay() {
-        let moveMade = false;
-        let board = currentBoard.gameBoard.board;
-        while (moveMade == false) {
-            //picks random square on the board to make a move
-            let pickedSquare = Math.floor(Math.random() * 9);
-            if (board[pickedSquare] === null) {
-                currentBoard.gameBoard.modify(pickedSquare, "O");
-                currentBoard.displayGame.update(pickedSquare);
-                moveMade = true;
-            }
-        }
-        currentBoard.gameBoard.checkWin()
-    }
+    // function cpuPlay() {
+    //     let moveMade = false;
+    //     let board = currentBoard.gameBoard.board;
+    //     while (moveMade == false) {
+    //         //picks random square on the board to make a move
+    //         let pickedSquare = Math.floor(Math.random() * 9);
+    //         if (board[pickedSquare] === null) {
+    //             currentBoard.gameBoard.modify(pickedSquare, "O");
+    //             currentBoard.displayGame.update(pickedSquare);
+    //             moveMade = true;
+    //         }
+    //     }
+    //     currentBoard.gameBoard.checkWin()
+    // }
 
 
-    playGame()
+    // playGame()
 
-    // console.log("Test")
+    console.log("Test")
 
-    // currentBoard.gameBoard.modify(1, "X")
-    // currentBoard.displayGame.display();
-    // console.log(currentBoard.gameBoard.board)
-
-    // currentBoard.displayGame.remove();
-    // currentBoard = generateBoard()
-    // currentBoard.displayGame.display()
-    // console.log(currentBoard.gameBoard.board)
+    currentBoard.gameBoard.modify(8, "O")
+    currentBoard.gameBoard.modify(0, "X")
+    console.log(currentBoard.gameBoard.board)
 
 }())
