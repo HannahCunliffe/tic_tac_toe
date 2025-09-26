@@ -50,12 +50,12 @@
                     //win check diagonal right-left
                 } else if (board[2] == board[4] && board[4] == board[6] && board[2] !== null) {
                     return true;
-                
-                //check for draw by checking if all board squares have values after checking win
-                //conditions
+
+                    //check for draw by checking if all board squares have values after checking win
+                    //conditions
                 } else if (board.indexOf(null) == -1) {
                     return "draw"
-                }else {
+                } else {
                     //return false if no win conditions met
                     return false;
                 }
@@ -83,6 +83,7 @@
                     gridSquare.id = i;
                     gridSquare.classList.add("gameSquares")
                     gridSquare.textContent = board[i];
+                    gridSquare.addEventListener("click", makeMove)
                     gridContainer.appendChild(gridSquare);
                 };
 
@@ -122,14 +123,64 @@
         return { name, score, addPoint, getPoints }
     };
 
-    const player1 = makePlayer("test");
+    function makeMove() {
+        let selectedSquare = this.id;
+        if (!(currentBoard.gameBoard.board[selectedSquare] == null)) {
+            console.log("works")
+            return "invalid move"
+        } else {
+
+        }
+    }
+
+    //handles start of game setup, i.e allows players to enter names before beginning
+    function gameStartup() {
+        let startupContainer = document.createElement("div");
+        startupContainer.id = "startupContainer";
+
+
+        let textDescription = document.createElement("h2");
+        textDescription.textContent = "Enter player names: ";
+
+        startupContainer.append(textDescription);
+        
+        let inputContainer = document.createElement("div");
+        inputContainer.classList.add("inputContainer");
+        let player1Inputs = document.createElement("div");
+        let player2Inputs = document.createElement("div");
+        let player1label = document.createElement("p");
+        player1label.innerText = "Player 1 Name:";
+        let player2label = document.createElement("p");
+        player2label.innerText = "Player 2 Name:";
+        let player1Input = document.createElement("input");
+        player1Input.id = "player1Name";
+        let player2Input = document.createElement("input");
+        player2Input.id = "player2Name";
+
+        player1Inputs.append(player1label, player1Input);
+        player2Inputs.append(player2label, player2Input);
+
+        inputContainer.append(player1Inputs, player2Inputs);
+
+        startupContainer.append(inputContainer);
+
+        let startButton = document.createElement("button");
+        startButton.textContent = "Start Game";
+        startButton.id = "startButton";
+        startButton.addEventListener("click", playGame);
+        startupContainer.append(startButton);
+
+        document.body.append(startupContainer);
+    };
+
+    gameStartup();
 
     let currentBoard = generateBoard();
 
-    currentBoard.displayGame.display();
+    // playGame()
 
     //function to play a game, currently configured to allow moves to be made via console
-    function playGame() {
+    function playGame(playername1, playername2) {
         // do {
         //     let userPickIndex = Number(prompt("Enter the square number you wish to pick")) - 1;
         //     if (Number.isInteger(userPickIndex)) {
@@ -141,6 +192,46 @@
         //         }
         //     }
         // } while (currentBoard.gameBoard.checkWin() == false)
+
+        //removes no longer needed inputs from game start
+        let startup = document.getElementById("startupContainer");
+
+        let player1Input = document.getElementById("player1Name").value;
+
+        let player2Input = document.getElementById("player2Name").value;
+
+        startup.remove();
+
+        const player1 = makePlayer(player1Input);
+
+        const player2 = makePlayer(player2Input);
+
+        let player1Mark = "X";
+
+        let player2Mark = "O";
+
+        currentBoard.displayGame.display();
+
+        let player1Turn = true;
+
+        let player2Turn = false;
+        
+
+        if (player1Turn == true) {
+            let heading = document.createElement("h2");
+            heading.textContent = `${player1.name} (Player 1)'s turn`
+            document.body.prepend(heading);
+        }
+
+        if (player2Turn == true) {
+            let heading = document.createElement("h2");
+            heading.textContent = `${player2.name} (Player 2)'s turn`
+            document.body.prepend(heading);
+        }
+
+        currentBoard.gameBoard.modify(8, "O")
+        currentBoard.gameBoard.modify(0, "X")
+        console.log(currentBoard.gameBoard.board)
     };
 
     // function cpuPlay() {
@@ -159,12 +250,8 @@
     // }
 
 
-    // playGame()
+    
 
-    console.log("Test")
 
-    currentBoard.gameBoard.modify(8, "O")
-    currentBoard.gameBoard.modify(0, "X")
-    console.log(currentBoard.gameBoard.board)
 
 }())
